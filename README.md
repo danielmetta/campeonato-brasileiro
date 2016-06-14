@@ -1,4 +1,4 @@
-# Módulo Web Scrap para consulta de jogos do campeonato brasileiro
+#Módulo Web Scrap para consulta de jogos do campeonato brasileiro
 
 [![npm](https://img.shields.io/npm/v/campeonato-brasileiro.svg)](https://www.npmjs.com/package/campeonato-brasileiro)
 [![npm](https://img.shields.io/npm/dm/campeonato-brasileiro.svg)](https://www.npmjs.com/package/campeonato-brasileiro)

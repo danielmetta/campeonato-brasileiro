@@ -1,7 +1,7 @@
 {
   "name": "campeonato-brasileiro",
-  "description": "Consulta tabela de jogos do campeonato brasileiro",
-  "version": "1.0.0",
+  "description": "Consulta tabela de jogos, tabela e rodadas do campeonato brasileiro",
+  "version": "1.0.1",
   "readmeFilename": "README.md",
   "keywords": [
     "campeonato",

@@ -59,46 +59,47 @@ exports.jogos = function(ano, serie) {
 };
 
 exports.tabela = function(serie) {
-  return new Promise(function(acept, error) {
-    var options = {
-      url: 'http://globoesporte.globo.com/futebol/brasileirao-serie-' + serie,
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'
-      }
-    };
-    request(options, function(error, response, html) {
-      if(!error) {
+    return new Promise(function(acept, error) {
+      var options = {
+        url: 'http://globoesporte.globo.com/futebol/brasileirao-serie-' + serie,
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'
+        }
+      };
+      request(options, function(error, response, html) {
+        if(!error) {
 
-        var $ = cheerio.load(html);
-        var lista = [];
-
-        $('.tabela-times tbody tr').each(function() {
-          var item = $(this);
-          var time = {};
-          time.nome = item.find('.tabela-times-time-link').attr('title');
-          lista.push(time);
-        });
-        var x = 0;
-        $('.tabela-pontos tbody tr').each(function() {
-          var item = $(this);
-          lista[x].pontos = item.find('.tabela-pontos-ponto').text();
-          lista[x].jogos = item.find('.tabela-pontos-ponto').next().text();
-          lista[x].vitorias = item.find('.tabela-pontos-ponto').next().next().text();
-          lista[x].empates = item.find('.tabela-pontos-ponto').next().next().next().text();
-          lista[x].derrotas = item.find('.tabela-pontos-ponto').next().next().next().next().text();
-          lista[x].golsPro = item.find('.tabela-pontos-ponto').next().next().next().next().next().text();
-          lista[x].golsContra = item.find('.tabela-pontos-ponto').next().next().next().next().next().next().text();
-          lista[x].saldoGols = item.find('.tabela-pontos-ponto').next().next().next().next().next().next().next().text();
-          lista[x].percentual = item.find('.tabela-pontos-ponto').next().next().next().next().next().next().next().next().text();
-          x++;
-        });
-        acept(lista);
-      } else {
-        error({ error:"Não foi possível retornar as informações!" });
-      }
+            const teste = /const classificacao = (.*?);\n/gmi;
+           //teste.compile();
+            var g = teste.exec(html);
+            if (g){
+                if (g[1]) {
+                    const jsonCampeonato = JSON.parse(g[1]);
+                    const classificacao = jsonCampeonato.classificacao;
+                    var lista = [];
+                    classificacao.forEach(time => {
+                        lista.push({
+                            nome : time.nome_popular,
+                            pontos : time.pontos,
+                            jogos : time.jogos,
+                            vitorias : time.vitorias,
+                            empates : time.empates,
+                            derrotas : time.derrotas,
+                            golsPro : time.gols_pro,
+                            golsContra : time.gols_contra,
+                            saldoGols : time.saldo_gols,
+                            percentual : time.aproveitamento
+                        })
+                    });
+                    acept(lista);
+                }
+            }
+        } else {
+          error({ error:"Não foi possível retornar as informações!" });
+        }
+      });
     });
-  });
-};
+  };
 
 exports.rodadaAtual = function(serie) {
   return new Promise(function(acept, error) {

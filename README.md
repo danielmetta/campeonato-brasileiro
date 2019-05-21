@@ -15,7 +15,7 @@ O módulo retorna as informações dos jogos, tabela e rodadas do campeonato bra
 
 var cb = require('campeonato-brasileiro');
 
-var ano = 2016;
+var ano = 2019;
 var serie = 'a';
 
 cb.jogos(ano, serie).then(function(jogos) {
@@ -61,7 +61,7 @@ var cb = require('campeonato-brasileiro');
 
 var serie = 'a';
 
-cb.tabela(serie).then(function(tabela) {
+cb.tabela(ano, serie).then(function(tabela) {
 	console.log(tabela);
 }, function(err){
 	console.log(err);
@@ -99,7 +99,7 @@ var cb = require('campeonato-brasileiro');
 
 var serie = 'a';
 
-cb.rodadaAtual(serie).then(function(rodada) {
+cb.rodadaAtual(ano, serie).then(function(rodada) {
 	console.log(rodada);
 }, function(err){
 	console.log(err);
